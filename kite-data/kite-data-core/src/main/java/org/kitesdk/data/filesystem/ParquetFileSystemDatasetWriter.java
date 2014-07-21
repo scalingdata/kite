@@ -15,23 +15,24 @@
  */
 package org.kitesdk.data.filesystem;
 
-import org.kitesdk.data.spi.ReaderWriterState;
-import org.kitesdk.data.DatasetWriter;
-import org.kitesdk.data.DatasetWriterException;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Closeables;
-import java.io.IOException;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.IndexedRecord;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.compress.SnappyCodec;
+import org.kitesdk.data.DatasetWriter;
+import org.kitesdk.data.DatasetWriterException;
+import org.kitesdk.data.spi.ReaderWriterState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import parquet.avro.AvroParquetWriter;
 import parquet.hadoop.ParquetWriter;
 import parquet.hadoop.metadata.CompressionCodecName;
+
+import java.io.IOException;
 
 class ParquetFileSystemDatasetWriter<E extends IndexedRecord> implements DatasetWriter<E> {
 
@@ -122,7 +123,7 @@ class ParquetFileSystemDatasetWriter<E extends IndexedRecord> implements Dataset
         Closeables.close(avroParquetWriter, false);
       } catch (IOException e) {
         throw new DatasetWriterException(
-          "Unable to close writer:" + avroParquetWriter + " to path:" + pathTmp);
+          "Unable to close writer:" + avroParquetWriter + " to path:" + pathTmp, e);
       }
 
       logger.debug("Committing pathTmp:{} to path:{}", pathTmp, path);
