@@ -115,7 +115,7 @@ class FileSystemDatasetWriter<E> implements DatasetWriter<E> {
       out.hflush();
     } catch (IOException e) {
       throw new DatasetWriterException(
-        "Unable to flush file writer:" + dataFileWriter);
+        "Unable to flush file writer:" + dataFileWriter, e);
     }
   }
 
@@ -128,7 +128,7 @@ class FileSystemDatasetWriter<E> implements DatasetWriter<E> {
         Closeables.close(dataFileWriter, false);
       } catch (IOException e) {
         throw new DatasetWriterException(
-          "Unable to close writer:" + dataFileWriter + " to path:" + pathTmp);
+          "Unable to close writer:" + dataFileWriter + " to path:" + pathTmp, e);
       }
 
       logger.debug("Committing pathTmp:{} to path:{}", pathTmp, path);
